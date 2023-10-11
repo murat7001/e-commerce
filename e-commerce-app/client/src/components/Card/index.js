@@ -3,13 +3,17 @@ import { Button, Box, Image } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import { useBasket } from '../../../src/contexts/BasketContext';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../../contexts/AuthContext';
+
 
 function Card({item}) {
     const{addToBasket, items} = useBasket()
+    const { loggedIn } = useAuth();
     const findBasketItem = items.find((basket_item) => basket_item._id === item._id)
+    const navigate = useNavigate();
 
-    
-  return (
+    return (
     <Box _hover={{
         boxShadow:'outline',
         color: "teal.500",
@@ -31,7 +35,7 @@ function Card({item}) {
                 </Box>
             </Box>
         </Link>
-        <Button colorScheme={findBasketItem ? 'pink':'green'} onClick={() => addToBasket(item, findBasketItem)}>
+        <Button colorScheme={findBasketItem ? 'pink':'green'} onClick={() => loggedIn ? addToBasket(item, findBasketItem): navigate('/signin')}>
             {
                 findBasketItem ? 'Remove from basket':'Add to basket'
             }
