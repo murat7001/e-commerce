@@ -6,6 +6,9 @@ import { useAuth } from "../contexts/AuthContext";
 
 function ProtectedRoute({ element }) {
 	const { loggedIn } = useAuth()
+
+
+	
 	return loggedIn ? <Outlet /> : <Navigate to="/signin" />;
 }
 
