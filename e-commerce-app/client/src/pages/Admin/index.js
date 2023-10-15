@@ -1,22 +1,28 @@
 import React from 'react'
-import { Route, Routes, Link, useMatch } from "react-router-dom";
+import {  Link, Outlet, } from "react-router-dom";
+import './styles.css'
+
+
 
 function Admin() {
+
     return (
         <div>
             <nav>
-                <ul className='admin-menu'>
+                <ul className="admin-menu">
                     <li>
-                        <Link to={'/'}>Home</Link>
+                        <Link to={"home"}>Home</Link>
                     </li>
                     <li>
-                        <Link to={'/'}>Orders</Link>
+                        <Link to={"orders"}>Orders</Link>
                     </li>
                     <li>
-                        <Link to={'/'}>Products</Link>
+                        <Link to={"products"}>Products</Link>
                     </li>
                 </ul>
             </nav>
+            <Outlet></Outlet>
+            
         </div>
     )
 }
