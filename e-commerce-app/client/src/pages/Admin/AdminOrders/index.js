@@ -6,11 +6,9 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
 } from '@chakra-ui/react'
 
@@ -29,7 +27,7 @@ function Orders() {
       <Text fontSize={'2xl'} p={5}>Orders</Text>
       <TableContainer>
         <Table variant='simple'>
-          <TableCaption>Imperial to metric conversion factors</TableCaption>
+          
           <Thead>
             <Tr>
               <Th>User</Th>
@@ -48,13 +46,7 @@ function Orders() {
               ))
             }
           </Tbody>
-          <Tfoot>
-            <Tr>
-              <Th>To convert</Th>
-              <Th>into</Th>
-              <Th isNumeric>multiply by</Th>
-            </Tr>
-          </Tfoot>
+          
         </Table>
       </TableContainer>
     </div>
