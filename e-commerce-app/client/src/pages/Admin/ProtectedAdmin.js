@@ -1,17 +1,37 @@
 
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, Link } from 'react-router-dom';
+import { Box } from '@chakra-ui/react';
+import './styles.css'
 
 function ProtectedAdmin() {
     const { user } = useAuth();
 
-    if (user?.role !== 'admin') {
-        // Kullanıcının admin rolü yoksa ana sayfaya yönlendir
-        return <Navigate to="/" />;
+    if (user?.role !== "admin") {
+        return <Navigate to={"/"} replace={true} />;
     }
 
-    return <Outlet />;
+    return (
+        <>
+            <nav>
+                <ul className="admin-menu">
+                    <li>
+                        <Link to={"/admin"}>Home</Link>
+                    </li>
+                    <li>
+                        <Link to={"/admin/orders"}>Orders</Link>
+                    </li>
+                    <li>
+                        <Link to={"/admin/products"}>Products</Link>
+                    </li>
+                </ul>
+            </nav>
+            <Box mt={10}>
+                <Outlet />
+            </Box>
+        </>
+    );
 }
 
 export default ProtectedAdmin;
