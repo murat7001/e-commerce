@@ -1,9 +1,11 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { fetchProduct } from '../../../api';
+import { fetchProduct, updateProduct } from '../../../api';
 import { useQuery } from 'react-query'
 import { FieldArray, Formik } from 'formik'
 import { Box, Text, FormControl, FormLabel, Input, Textarea, Button } from '@chakra-ui/react';
+import validationSchema from './validations'
+import { message } from 'antd'
 
 function AdminProductDetail() {
   const { product_id } = useParams();
@@ -17,8 +19,18 @@ function AdminProductDetail() {
     return <div>Error{error}</div>
   }
 
-  const handleSubmit = () => {
-    console.log('submitted')
+  const handleSubmit = async(values, bag) => {
+    message.loading({content:'Loading...', key:'product_update'});
+    try {
+      await updateProduct(values, product_id);
+
+      message.success({
+        content:'The product updated', key:'product_update',
+        duration:3,
+      })
+    } catch (error) {
+      message.error({content:'The product does not updated.'})
+    }
   }
   return (
     <div>
@@ -30,20 +42,17 @@ function AdminProductDetail() {
           price: data.price,
           photos: data.photos
         }}
-        validate={values => {
-
-        }}
+        validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({
           values,
-          errors,
-          touched,
           handleChange,
           handleBlur,
           handleSubmit,
           isSubmitting,
-
+          errors,
+          touched,
         }) => (
           <>
             <Box>
@@ -51,22 +60,22 @@ function AdminProductDetail() {
                 <form onSubmit={handleSubmit}>
                   <FormControl>
                     <FormLabel>Title</FormLabel>
-                    <Input name='title' onChange={handleChange} onBlur={handleBlur} value={values.title} disabled={isSubmitting}></Input>
+                    <Input name='title' onChange={handleChange} onBlur={handleBlur} value={values.title} disabled={isSubmitting} isInvalid={touched.title && errors.title}></Input>
                   </FormControl>
 
                   <FormControl mt={5}>
                     <FormLabel>Description</FormLabel>
-                    <Textarea name='description' onChange={handleChange} onBlur={handleBlur} value={values.description} disabled={isSubmitting}></Textarea>
+                    <Textarea name='description' onChange={handleChange} onBlur={handleBlur} value={values.description} disabled={isSubmitting} isInvalid={touched.description && errors.description}></Textarea>
                   </FormControl>
 
                   <FormControl mt={5}>
                     <FormLabel>Price</FormLabel>
-                    <Input name='price' onChange={handleChange} onBlur={handleBlur} value={values.price} disabled={isSubmitting}></Input>
+                    <Input name='price' onChange={handleChange} onBlur={handleBlur} value={values.price} disabled={isSubmitting} isInvalid={touched.price && errors.price}></Input>
                   </FormControl>
 
                   <FormControl mt={5}>
                     <FormLabel>Photos</FormLabel>
-                    <FieldArray name='photos' render={(arrayHelpers) => (
+                    <FieldArray name='photos'  isInvalid={touched.photos && errors.photos} render={(arrayHelpers) => (
                       <div>
                         {values.photos && values.photos.map((photo, index) => (
                           <div key={index}>
@@ -77,9 +86,17 @@ function AdminProductDetail() {
                             </Button>
                           </div>
                         ))}
+
+                          <Button mt={5} onClick={() => arrayHelpers.push('')} >Add a Photo</Button>
+
                       </div>
                     )}></FieldArray>
                   </FormControl>
+
+                  <Button mt={4} width={'full'} type='submit' isLoading={isSubmitting}>
+                    Update
+                  </Button>
+
                 </form>
               </Box>
             </Box>
