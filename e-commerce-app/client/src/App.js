@@ -13,7 +13,8 @@ import ProtectedAdmin from './pages/Admin/ProtectedAdmin';
 import AdminProductDetail from './pages/Admin/AdminProductDetail';
 import AdminHome from './pages/Admin/AdminHome';
 import AdminOrders from './pages/Admin/AdminOrders';
-import AdminProducts from './pages/Admin/AdminProducts';
+import AdminProducts from './pages/Admin//AdminProducts';
+import NewProduct from './pages/Admin/AdminProducts/newProduct';
 
 
 
@@ -43,7 +44,7 @@ function App() {
 							path="/admin/products/:product_id"
 							element={<AdminProductDetail />}
 						/>
-						
+						<Route path="/admin/products/new" element={<NewProduct />} />
 					</Route>
 
           <Route path="*" element={<Error404 />} />

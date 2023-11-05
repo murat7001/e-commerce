@@ -1,9 +1,9 @@
-import {useMemo} from 'react'
+import { useMemo } from 'react'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { deleteProduct, fetchProductList } from '../../../api';
 import { Popconfirm, Table } from 'antd'
-import { Button, Text } from '@chakra-ui/react';
-import {Link} from 'react-router-dom'
+import { Box, Button } from '@chakra-ui/react';
+import { Link } from 'react-router-dom'
 function Products() {
   const queryClient = useQueryClient();
 
@@ -37,9 +37,9 @@ function Products() {
         title: 'Action',
         dataIndex: 'action',
         render: (text, record) => (
-          <> 
-          <Link to={`/admin/products/${record._id}`}><Button p={2} colorScheme='green'>Edit</Button></Link>
-          <Popconfirm title='Ae you sure?' onConfirm={() => {deleteMutation.mutate(record._id)}}  okText='Yes' cancelText='No' placement='left'><Button ml={2} p={2} colorScheme='red'>Delete</Button></Popconfirm>
+          <>
+            <Link to={`/admin/products/${record._id}`}><Button p={2} colorScheme='green'>Edit</Button></Link>
+            <Popconfirm title='Ae you sure?' onConfirm={() => { deleteMutation.mutate(record._id) }} okText='Yes' cancelText='No' placement='left'><Button ml={2} p={2} colorScheme='red'>Delete</Button></Popconfirm>
           </>
         ),
       },
@@ -55,7 +55,12 @@ function Products() {
 
   return (
     <div>
-      <Text fontSize={'2xl'} p={'5'}>Products</Text>
+      <Box display={'flex'} justifyContent={'space-between'} fontSize={'2xl'} p={'5'}>Products
+        <Link to={'/admin/products/new'}>
+          <Button>Add Product</Button> 
+        </Link>
+      </Box>
+
       <Table dataSource={data} columns={columns} rowKey={'_id'} />
     </div>
   )
